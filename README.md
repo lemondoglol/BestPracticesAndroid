@@ -1,2 +1,2 @@
 # BestPracticesAndroid
-Application follow best practices
+Application follow best practices!
