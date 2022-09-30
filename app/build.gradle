@@ -91,6 +91,13 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     // GSON
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+
+
+    // Room DB
+    def room_version = "2.4.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }
 
 // Allow references to generated code
