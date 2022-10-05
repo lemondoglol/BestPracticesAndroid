@@ -58,4 +58,57 @@ class FileTransferFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    internal fun writeToAppSpecificFile() {
+        val fileName = "myFile"
+        val fileContent = "Hello Ryan!"
+        // file stored in /data/data/com.example.bestpracticesapplication/files/myFile
+        context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
+            it.write(fileContent.toByteArray())
+        }
+    }
+
+    internal fun readAppSpecificFile(): String {
+        val fileName = "myFile"
+        val content  = context.openFileInput(fileName).bufferedReader().useLines {
+            it.fold("") { curItem, nextItem ->
+                "$curItem\n$nextItem"
+            }
+        }
+        return content
+    }
+
+    internal fun cachedFile() {
+        val fileName = "cachedFileName"
+        // create new cache file, stored in data/user/0/com.example.bestpracticesapplication/cache
+        val newFile = File.createTempFile(fileName, ".txt", context.cacheDir)
+
+        // access file
+        val cachedFile = File(context.cacheDir, fileName)
+
+        // delete file, handle this in onCleared()
+//        cachedFile.delete()
+        // or delete by name context.delete(fileName)
+    }
+
+    internal fun accessAppSpecificExternalStorage() {
+        val fileName = "appSpecificExternalDir"
+        // access
+        val appSpecificExternalDir = File(context.getExternalFilesDir(null), fileName)
+
+        // create a cached file in appSpecificExternalDir
+        val cachedFile = File(context.externalCacheDir, fileName)
+
+        // remove cached file
+        cachedFile.delete()
+
+        // example for get the pictures directory
+        val albumName = "myAlbumName"
+        val pictureFile = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), albumName)
+        if (!pictureFile.mkdirs()) {
+            // Directory not created
+        }
+        // return pictureFile
+    }
+
 }

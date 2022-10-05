@@ -1,15 +1,21 @@
 package com.example.bestpracticesapplication.features.file_transfer
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.registerForActivityResult
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -29,6 +35,17 @@ class FileTransferFragment : Fragment() {
 
     private val viewModel by viewModels<FileTransferFragmentViewModel>()
 
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        when (uri != null) {
+            true -> {
+                Toast.makeText(context, "URI: $uri", Toast.LENGTH_SHORT).show()
+            }
+            false -> {
+                Toast.makeText(context, "URI is null", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +54,10 @@ class FileTransferFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    Column {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
                         Button(
                             onClick = viewModel::downloadAndSaveFile
                         ) {
@@ -49,6 +69,29 @@ class FileTransferFragment : Fragment() {
                                 uri = viewModel.savedFileUri,
                             )
                         }
+
+                        Button(
+                            onClick = viewModel::writeToAppSpecificFile
+                        ) {
+                            Text("Click to write to a file")
+                        }
+
+                        Button(
+                            onClick = {
+                                pickMedia.launch(
+                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo)
+                                )
+                                // other possible parameters
+//                                ActivityResultContracts.PickVisualMedia.ImageOnly
+//                                ActivityResultContracts.PickVisualMedia.VideoOnly
+//                                val mimeType = "image/gif"
+//                                ActivityResultContracts.PickVisualMedia.SingleMimeType(mimeType)
+                            }
+                        ) {
+                            Text("Launch Photo picker")
+                        }
+
+                        Text("Content: ${viewModel.readAppSpecificFile()}")
                     }
                 }
             }
