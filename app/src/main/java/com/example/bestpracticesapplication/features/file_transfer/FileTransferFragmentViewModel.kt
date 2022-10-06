@@ -43,11 +43,13 @@ class FileTransferFragmentViewModel @Inject constructor(
                         kotlin.runCatching {
                             val file = File(
                                 context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                                "wow1.jpg"
+                                "wow3.jpg"
                             )
                             if (!file.exists()) file.createNewFile()
-                            val fileOutputStream = FileOutputStream(file)
-                            inputStream?.copyTo(fileOutputStream)
+                            FileOutputStream(file).use {
+                                inputStream?.copyTo(it)
+                            }
+
                             savedFileUri = file.path
                         }
                     }
@@ -59,17 +61,17 @@ class FileTransferFragmentViewModel @Inject constructor(
         }
     }
 
-    internal fun writeToAppSpecificFile() {
-        val fileName = "myFile"
-        val fileContent = "Hello Ryan!"
+    internal fun writeToAppSpecificFile(
+        fileName: String = "myFile",
+        fileContent: String = "Hello Ryan!",
+    ) {
         // file stored in /data/data/com.example.bestpracticesapplication/files/myFile
         context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
             it.write(fileContent.toByteArray())
         }
     }
 
-    internal fun readAppSpecificFile(): String {
-        val fileName = "myFile"
+    internal fun readAppSpecificFile(fileName: String = "myFile"): String {
         val content  = context.openFileInput(fileName).bufferedReader().useLines {
             it.fold("") { curItem, nextItem ->
                 "$curItem\n$nextItem"
