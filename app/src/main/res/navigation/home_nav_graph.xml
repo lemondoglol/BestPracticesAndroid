@@ -11,9 +11,16 @@
         <action
             android:id="@+id/action_homeFragment_to_fileTransferFragment"
             app:destination="@id/fileTransferFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/fileTransferFragment"
         android:name="com.example.bestpracticesapplication.features.file_transfer.FileTransferFragment"
         android:label="FileTransferFragment" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.bestpracticesapplication.features.sign_in.SignInFragment"
+        android:label="SignInFragment" />
 </navigation>

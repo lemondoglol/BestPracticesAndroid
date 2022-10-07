@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -29,7 +30,17 @@ class HomeFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    Column {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Button(
+                            onClick = {
+                                findNavController().navigate(
+                                    HomeFragmentDirections.actionHomeFragmentToSignInFragment()
+                                )
+                            }
+                        ) {
+                            Text("To Sign-in fragment")
+                        }
+
                         Button(
                             onClick = {
                                 findNavController().navigate(
@@ -45,3 +56,30 @@ class HomeFragment : Fragment() {
         }
     }
 }
+
+
+//@AndroidEntryPoint
+//class SignInFragment : Fragment() {
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View {
+//        return ComposeView(requireContext()).apply {
+//            setContent {
+//                Surface(modifier = Modifier.fillMaxSize()) {
+//                    Column {
+//                        Button(
+//                            onClick = {
+//                                // todo
+//                            }
+//                        ) {
+//                            Text("Sign in")
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}

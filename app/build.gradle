@@ -43,6 +43,8 @@ android {
 }
 
 dependencies {
+    // google one-tap sign-in and sign-up
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
 
     implementation 'androidx.activity:activity-ktx:1.6.0'
     implementation 'androidx.activity:activity:1.6.0'
