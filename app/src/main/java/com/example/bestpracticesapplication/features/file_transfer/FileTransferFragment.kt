@@ -91,7 +91,7 @@ class FileTransferFragment : Fragment() {
                             Text("Launch Photo picker")
                         }
 
-                        Text("Content: ${viewModel.readAppSpecificFile()}")
+//                        Text("Content: ${viewModel.readAppSpecificFile()}")
                     }
                 }
             }

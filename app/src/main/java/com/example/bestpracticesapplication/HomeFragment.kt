@@ -44,6 +44,16 @@ class HomeFragment : Fragment() {
                         Button(
                             onClick = {
                                 findNavController().navigate(
+                                    HomeFragmentDirections.actionHomeFragmentToOneTapSignInFragment()
+                                )
+                            }
+                        ) {
+                            Text("To OneTap Sign-in fragment")
+                        }
+
+                        Button(
+                            onClick = {
+                                findNavController().navigate(
                                     HomeFragmentDirections.actionHomeFragmentToFileTransferFragment()
                                 )
                             }
@@ -56,30 +66,3 @@ class HomeFragment : Fragment() {
         }
     }
 }
-
-
-//@AndroidEntryPoint
-//class SignInFragment : Fragment() {
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        return ComposeView(requireContext()).apply {
-//            setContent {
-//                Surface(modifier = Modifier.fillMaxSize()) {
-//                    Column {
-//                        Button(
-//                            onClick = {
-//                                // todo
-//                            }
-//                        ) {
-//                            Text("Sign in")
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
