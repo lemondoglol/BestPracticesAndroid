@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -30,35 +30,49 @@ class HomeFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Button(
-                            onClick = {
-                                findNavController().navigate(
-                                    HomeFragmentDirections.actionHomeFragmentToSignInFragment()
-                                )
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        item {
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToSignInFragment()
+                                    )
+                                }
+                            ) {
+                                Text("To Sign-in fragment")
                             }
-                        ) {
-                            Text("To Sign-in fragment")
-                        }
 
-                        Button(
-                            onClick = {
-                                findNavController().navigate(
-                                    HomeFragmentDirections.actionHomeFragmentToOneTapSignInFragment()
-                                )
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToOneTapSignInFragment()
+                                    )
+                                }
+                            ) {
+                                Text("To OneTap Sign-in fragment")
                             }
-                        ) {
-                            Text("To OneTap Sign-in fragment")
-                        }
 
-                        Button(
-                            onClick = {
-                                findNavController().navigate(
-                                    HomeFragmentDirections.actionHomeFragmentToFileTransferFragment()
-                                )
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToFileTransferFragment()
+                                    )
+                                }
+                            ) {
+                                Text("Download and Save File")
                             }
-                        ) {
-                            Text("Download and Save File")
+
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToNotificationFragment()
+                                    )
+                                }
+                            ) {
+                                Text("To Notification")
+                            }
                         }
                     }
                 }

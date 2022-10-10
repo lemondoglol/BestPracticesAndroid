@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_homeFragment_to_oneTapSignInFragment"
             app:destination="@id/oneTapSignInFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/fileTransferFragment"
@@ -30,4 +33,8 @@
         android:id="@+id/oneTapSignInFragment"
         android:name="com.example.bestpracticesapplication.features.sign_in.OneTapSignInFragment"
         android:label="OneTapSignInFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.example.bestpracticesapplication.features.notifications.NotificationFragment"
+        android:label="NotificationFragment" />
 </navigation>
