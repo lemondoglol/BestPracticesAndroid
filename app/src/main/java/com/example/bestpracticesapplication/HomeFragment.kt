@@ -57,6 +57,16 @@ class HomeFragment : Fragment() {
                             Button(
                                 onClick = {
                                     findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToWorkManagerFragment()
+                                    )
+                                }
+                            ) {
+                                Text("To WorkManager fragment")
+                            }
+
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
                                         HomeFragmentDirections.actionHomeFragmentToFileTransferFragment()
                                     )
                                 }

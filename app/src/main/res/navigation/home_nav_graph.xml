@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_workManagerFragment"
+            app:destination="@id/workManagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/fileTransferFragment"
@@ -37,4 +40,8 @@
         android:id="@+id/notificationFragment"
         android:name="com.example.bestpracticesapplication.features.notifications.NotificationFragment"
         android:label="NotificationFragment" />
+    <fragment
+        android:id="@+id/workManagerFragment"
+        android:name="com.example.bestpracticesapplication.features.workmanager.WorkManagerFragment"
+        android:label="WorkManagerFragment" />
 </navigation>
