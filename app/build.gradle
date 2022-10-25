@@ -1,3 +1,8 @@
+// note buildscript must appear before plugins
+buildscript {
+    apply from: "$rootDir/gradle/dependencies.gradle"
+}
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -96,10 +101,10 @@ dependencies {
 
 
     // retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation project.ext.network.retrofit
+//    implementation project.ext.network.values()  if want to include all
     // GSON
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-
+    implementation project.ext.network.gson
 
     // Room DB
     def room_version = "2.4.3"
