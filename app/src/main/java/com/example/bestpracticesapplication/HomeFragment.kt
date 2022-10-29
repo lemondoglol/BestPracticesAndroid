@@ -83,6 +83,16 @@ class HomeFragment : Fragment() {
                             ) {
                                 Text("To Notification")
                             }
+
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToCustomFlashLightFragment()
+                                    )
+                                }
+                            ) {
+                                Text("To Flash Light")
+                            }
                         }
                     }
                 }

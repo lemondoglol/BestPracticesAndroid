@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_homeFragment_to_workManagerFragment"
             app:destination="@id/workManagerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_customFlashLightFragment"
+            app:destination="@id/customFlashLightFragment" />
     </fragment>
     <fragment
         android:id="@+id/fileTransferFragment"
@@ -44,4 +47,8 @@
         android:id="@+id/workManagerFragment"
         android:name="com.example.bestpracticesapplication.features.workmanager.WorkManagerFragment"
         android:label="WorkManagerFragment" />
+    <fragment
+        android:id="@+id/customFlashLightFragment"
+        android:name="com.example.bestpracticesapplication.features.flash_light.CustomFlashLightFragment"
+        android:label="CustomFlashLightFragment" />
 </navigation>
