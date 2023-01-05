@@ -93,6 +93,26 @@ class HomeFragment : Fragment() {
                             ) {
                                 Text("To Flash Light")
                             }
+
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToAvoidGlobalScopeFragment()
+                                    )
+                                }
+                            ) {
+                                Text("To Avoid Using GlobalScope Example")
+                            }
+
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToCountDownTimerFragment()
+                                    )
+                                }
+                            ) {
+                                Text("To CountDownTimer Example")
+                            }
                         }
                     }
                 }

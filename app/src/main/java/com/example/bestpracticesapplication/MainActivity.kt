@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 }
             }
             lightSensor -> {
-                Log.d("Tuna", "Light Sensor: ")
+//                Log.d("Tuna", "Light Sensor: ")
             }
             else -> {}
         }

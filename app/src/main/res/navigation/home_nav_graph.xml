@@ -26,6 +26,12 @@
         <action
             android:id="@+id/action_homeFragment_to_customFlashLightFragment"
             app:destination="@id/customFlashLightFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_avoidGlobalScopeFragment"
+            app:destination="@id/avoidGlobalScopeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_countDownTimerFragment"
+            app:destination="@id/countDownTimerFragment" />
     </fragment>
     <fragment
         android:id="@+id/fileTransferFragment"
@@ -51,4 +57,12 @@
         android:id="@+id/customFlashLightFragment"
         android:name="com.example.bestpracticesapplication.features.flash_light.CustomFlashLightFragment"
         android:label="CustomFlashLightFragment" />
+    <fragment
+        android:id="@+id/avoidGlobalScopeFragment"
+        android:name="com.example.bestpracticesapplication.coroutine.AvoidGlobalScopeFragment"
+        android:label="AvoidGlobalScopeFragment" />
+    <fragment
+        android:id="@+id/countDownTimerFragment"
+        android:name="com.example.bestpracticesapplication.features.timer.CountDownTimerFragment"
+        android:label="CountDownTimerFragment" />
 </navigation>

@@ -41,6 +41,11 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+
+        <service
+            android:name=".features.timer.TimerService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
