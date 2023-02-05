@@ -33,6 +33,20 @@ fun AnimationExampleContentScreen(
         verticalArrangement = Arrangement.Center,
     ) {
         Button(
+            modifier = Modifier.shiftClick(),
+            onClick = {},
+        ) {
+            Text("Shift Button: Click Me!")
+        }
+
+        Button(
+            modifier = Modifier.shakeClick(),
+            onClick = {},
+        ) {
+            Text("Shake Button: Click Me!")
+        }
+
+        Button(
             modifier = Modifier
                 .onClickGradientEffect(
                     idleStateGradientColors = listOf(
@@ -49,7 +63,7 @@ fun AnimationExampleContentScreen(
                 .clip(CircleShape),
             onClick = { isClicked = !isClicked }
         ) {
-            Text("Bounce Button Click Me!")
+            Text("Bounce Gradient Button: Click Me!")
         }
     }
 }
