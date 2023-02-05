@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_homeFragment_to_countDownTimerFragment"
             app:destination="@id/countDownTimerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_animationExampleFragment"
+            app:destination="@id/animationExampleFragment" />
     </fragment>
     <fragment
         android:id="@+id/fileTransferFragment"
@@ -65,4 +68,8 @@
         android:id="@+id/countDownTimerFragment"
         android:name="com.example.bestpracticesapplication.features.timer.CountDownTimerFragment"
         android:label="CountDownTimerFragment" />
+    <fragment
+        android:id="@+id/animationExampleFragment"
+        android:name="com.example.bestpracticesapplication.animations.AnimationExampleFragment"
+        android:label="AnimationExampleFragment" />
 </navigation>

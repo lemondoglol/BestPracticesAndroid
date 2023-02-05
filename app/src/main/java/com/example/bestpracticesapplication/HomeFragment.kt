@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -34,6 +36,16 @@ class HomeFragment : Fragment() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         item {
+                            Button(
+                                onClick = {
+                                    findNavController().navigate(
+                                        HomeFragmentDirections.actionHomeFragmentToAnimationExampleFragment()
+                                    )
+                                }
+                            ) {
+                                Text("To Animation Example")
+                            }
+
                             Button(
                                 onClick = {
                                     findNavController().navigate(
