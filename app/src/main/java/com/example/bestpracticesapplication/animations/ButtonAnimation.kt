@@ -1,5 +1,6 @@
 package com.example.bestpracticesapplication.animations
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -16,48 +17,95 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 
-private enum class BounceViewState { Pressed, Idle }
+private enum class ViewState { Pressed, Idle }
 
-fun Modifier.onClickGradientEffect(
-    idleStateGradientColors: List<Color>,
-    pressStateGradientColors: List<Color>,
-) = composed {
-    var bounceViewState by remember { mutableStateOf(BounceViewState.Idle) }
-
-    val gradient = when (bounceViewState) {
-        BounceViewState.Idle -> Brush.verticalGradient(
-            idleStateGradientColors
+fun Modifier.brushClick() = composed {
+    var viewState by remember { mutableStateOf(ViewState.Idle) }
+    val animatedColor by animateColorAsState(
+        targetValue = when (viewState) {
+            ViewState.Pressed -> Color.Gray
+            ViewState.Idle -> Color.DarkGray
+        },
+        animationSpec = tween(
+            delayMillis = 200,
+            durationMillis = 1000,
         )
-        BounceViewState.Pressed -> Brush.verticalGradient(
-            pressStateGradientColors
+    )
+
+    val brush = when (viewState) {
+        ViewState.Pressed -> Brush.verticalGradient(
+            colorStops = arrayOf(
+                0.2f to Color.DarkGray,
+                0.5f to animatedColor,
+                0.8f to Color.DarkGray,
+            )
+        )
+        ViewState.Idle -> Brush.verticalGradient(
+            colors = listOf(Color.DarkGray, Color.DarkGray),
         )
     }
 
     this
-        .background(brush = gradient)
-        .pointerInput(bounceViewState) {
+        .background(brush)
+        .pointerInput(viewState) {
             awaitPointerEventScope {
-                bounceViewState = when (bounceViewState) {
-                    BounceViewState.Pressed -> {
-                        waitForUpOrCancellation()
-                        BounceViewState.Idle
-                    }
-                    BounceViewState.Idle -> {
+                viewState = when (viewState) {
+                    ViewState.Idle -> {
+                        // waiting for the first down event (even it is consumed by other clicks already)
                         awaitFirstDown(false)
-                        BounceViewState.Pressed
+                        ViewState.Pressed
+                    }
+                    ViewState.Pressed -> {
+                        waitForUpOrCancellation()
+                        ViewState.Idle
                     }
                 }
             }
         }
 }
 
+fun Modifier.backgroundColorClick(
+    viewPressedSize: Float = 0.9f,
+    animationDurationMills: Int = 1000,
+) = composed {
+    var viewState by remember { mutableStateOf(ViewState.Idle) }
+    val backgroundColor by animateColorAsState(
+        targetValue = when (viewState) {
+            ViewState.Pressed -> Color.Gray
+            ViewState.Idle -> Color.DarkGray
+        },
+        animationSpec = tween(
+            durationMillis = 500,
+        )
+    )
+
+    val modifier = this
+        .background(backgroundColor)
+        .pointerInput(viewState) {
+            awaitPointerEventScope {
+                viewState = when (viewState) {
+                    ViewState.Pressed -> {
+                        waitForUpOrCancellation()
+                        ViewState.Idle
+                    }
+                    ViewState.Idle -> {
+                        awaitFirstDown(false)
+                        ViewState.Pressed
+                    }
+                }
+            }
+        }
+
+    modifier
+}
+
 fun Modifier.bounceClick(
     viewPressedSize: Float = 0.9f,
     animationDurationMills: Int = 1000,
 ) = composed {
-    var bounceViewState by remember { mutableStateOf(BounceViewState.Idle) }
+    var bounceViewState by remember { mutableStateOf(ViewState.Idle) }
     val scale by animateFloatAsState(
-        targetValue = if (bounceViewState == BounceViewState.Pressed) viewPressedSize else 1f,
+        targetValue = if (bounceViewState == ViewState.Pressed) viewPressedSize else 1f,
         animationSpec = tween(durationMillis = animationDurationMills)
     )
 
@@ -66,13 +114,13 @@ fun Modifier.bounceClick(
         .pointerInput(bounceViewState) {
             awaitPointerEventScope {
                 bounceViewState = when (bounceViewState) {
-                    BounceViewState.Pressed -> {
+                    ViewState.Pressed -> {
                         waitForUpOrCancellation()
-                        BounceViewState.Idle
+                        ViewState.Idle
                     }
-                    BounceViewState.Idle -> {
+                    ViewState.Idle -> {
                         awaitFirstDown(false)
-                        BounceViewState.Pressed
+                        ViewState.Pressed
                     }
                 }
             }
@@ -85,9 +133,9 @@ fun Modifier.shiftClick(
     viewPressedShiftSize: Float = 20f,
     animationDurationMills: Int = 1000,
 ) = composed {
-    var bounceViewState by remember { mutableStateOf(BounceViewState.Idle) }
+    var bounceViewState by remember { mutableStateOf(ViewState.Idle) }
     val shiftSize by animateFloatAsState(
-        targetValue = if (bounceViewState == BounceViewState.Pressed) viewPressedShiftSize else 0f,
+        targetValue = if (bounceViewState == ViewState.Pressed) viewPressedShiftSize else 0f,
         animationSpec = tween(durationMillis = animationDurationMills)
     )
 
@@ -98,13 +146,13 @@ fun Modifier.shiftClick(
         .pointerInput(bounceViewState) {
             awaitPointerEventScope {
                 bounceViewState = when (bounceViewState) {
-                    BounceViewState.Pressed -> {
+                    ViewState.Pressed -> {
                         waitForUpOrCancellation()
-                        BounceViewState.Idle
+                        ViewState.Idle
                     }
-                    BounceViewState.Idle -> {
+                    ViewState.Idle -> {
                         awaitFirstDown(false)
-                        BounceViewState.Pressed
+                        ViewState.Pressed
                     }
                 }
             }
@@ -118,9 +166,9 @@ fun Modifier.shakeClick(
     animationDurationMills: Int = 100,
     iterationTimes: Int = 3,
 ) = composed {
-    var bounceViewState by remember { mutableStateOf(BounceViewState.Idle) }
+    var bounceViewState by remember { mutableStateOf(ViewState.Idle) }
     val shakeSize by animateFloatAsState(
-        targetValue = if (bounceViewState == BounceViewState.Pressed) viewPressedShakeSize else 0f,
+        targetValue = if (bounceViewState == ViewState.Pressed) viewPressedShakeSize else 0f,
         animationSpec = repeatable(
             iterations = iterationTimes,
             animation = tween(durationMillis = animationDurationMills, easing = LinearEasing),
@@ -135,13 +183,13 @@ fun Modifier.shakeClick(
         .pointerInput(bounceViewState) {
             awaitPointerEventScope {
                 bounceViewState = when (bounceViewState) {
-                    BounceViewState.Pressed -> {
+                    ViewState.Pressed -> {
                         waitForUpOrCancellation()
-                        BounceViewState.Idle
+                        ViewState.Idle
                     }
-                    BounceViewState.Idle -> {
+                    ViewState.Idle -> {
                         awaitFirstDown(false)
-                        BounceViewState.Pressed
+                        ViewState.Pressed
                     }
                 }
             }
