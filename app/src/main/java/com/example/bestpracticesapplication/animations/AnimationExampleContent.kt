@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.example.bestpracticesapplication.compose.ButtonWithState
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -48,13 +50,15 @@ fun AnimationExampleContentScreen(
                 Text("Shake Button: Click Me!")
             }
 
+            val bounceClickInteractionSource = remember { MutableInteractionSource() }
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .bounceClick()
+                    .bounceClick(bounceClickInteractionSource)
                     .aspectRatio(ratio = 5.5f, matchHeightConstraintsFirst = false)
                     .clip(CircleShape),
-                onClick = {}
+                onClick = {},
+                interactionSource = bounceClickInteractionSource,
             ) {
                 Text("Bounce Button: Click Me!")
             }
@@ -62,10 +66,12 @@ fun AnimationExampleContentScreen(
             // this will trigger the same click to the same interaction source
             ButtonWithState(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .customIndication(
                         interactionSource = gradientInteractionSource,
                         indication = rememberRipple(
-
+                            color = Color.Yellow,
+                            radius = 150.dp,
                         )
                     ) {},
                 interactionSource = gradientInteractionSource,

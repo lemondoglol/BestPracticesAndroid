@@ -10,13 +10,7 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccountTree
-import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.scale
@@ -78,36 +72,20 @@ fun Modifier.gradientClick(
 }
 
 fun Modifier.bounceClick(
+    interactionSource: InteractionSource,
     viewPressedSize: Float = 0.5f,
     animationDurationMills: Int = 2000,
 ) = composed {
-    var bounceViewState by remember { mutableStateOf(ViewState.Idle) }
+    val isPressed by interactionSource.collectIsPressedAsState()
     val scale by animateFloatAsState(
-        targetValue = if (bounceViewState == ViewState.Pressed) viewPressedSize else 1f,
+        targetValue = if (isPressed) viewPressedSize else 1f,
         animationSpec = tween(
             durationMillis = animationDurationMills,
             easing = LinearOutSlowInEasing
         )
     )
 
-    val modifier = this
-        .scale(scale)
-        .pointerInput(bounceViewState) {
-            awaitPointerEventScope {
-                bounceViewState = when (bounceViewState) {
-                    ViewState.Pressed -> {
-                        waitForUpOrCancellation()
-                        ViewState.Idle
-                    }
-                    ViewState.Idle -> {
-                        awaitFirstDown(false)
-                        ViewState.Pressed
-                    }
-                }
-            }
-        }
-
-    modifier
+    this.scale(scale)
 }
 
 fun Modifier.shiftClick(
