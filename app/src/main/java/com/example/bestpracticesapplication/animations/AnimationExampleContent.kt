@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import com.example.bestpracticesapplication.compose.ButtonWithState
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -61,7 +62,7 @@ fun AnimationExampleContentScreen(
             // this will trigger the same click to the same interaction source
             ButtonWithState(
                 modifier = Modifier
-                    .gradientIndication(
+                    .customIndication(
                         interactionSource = gradientInteractionSource,
                         indication = rememberRipple(
 
