@@ -1,17 +1,27 @@
 package com.example.bestpracticesapplication.animations
 
-import androidx.compose.animation.animateColorAsState
+import android.util.Log
+import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AccountTree
+import androidx.compose.material.icons.rounded.ShoppingCart
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -64,6 +74,48 @@ fun Modifier.brushClick() = composed {
         }
 }
 
+fun Modifier.gradientClick(
+    interactionSource: InteractionSource,
+) = composed {
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val fadeInAnimatedColor by animateColorAsState(
+        targetValue = Color.Cyan,
+        animationSpec = tween(durationMillis = 0)
+    )
+
+    val fadeOutAnimatedColor by animateColorAsState(
+        targetValue = when (isPressed) {
+            true -> Color.Cyan
+            false -> Color.DarkGray
+        },
+        // key point!!!
+        animationSpec = when (isPressed) {
+            true -> tween(durationMillis = 0)
+            false -> tween(durationMillis = 2000)
+        }
+    )
+
+    val brush = when (isPressed) {
+        true -> Brush.verticalGradient(
+            colorStops = arrayOf(
+                0.2f to Color.DarkGray,
+                0.5f to fadeInAnimatedColor,
+                0.8f to Color.DarkGray,
+            )
+        )
+        false -> Brush.verticalGradient(
+            colorStops = arrayOf(
+                0.2f to Color.DarkGray,
+                0.5f to fadeOutAnimatedColor,
+                0.8f to Color.DarkGray,
+            )
+        )
+    }
+
+    this.background(brush)
+}
+
 fun Modifier.backgroundColorClick(
     viewPressedSize: Float = 0.9f,
     animationDurationMills: Int = 1000,
@@ -100,13 +152,16 @@ fun Modifier.backgroundColorClick(
 }
 
 fun Modifier.bounceClick(
-    viewPressedSize: Float = 0.9f,
-    animationDurationMills: Int = 1000,
+    viewPressedSize: Float = 0.5f,
+    animationDurationMills: Int = 2000,
 ) = composed {
     var bounceViewState by remember { mutableStateOf(ViewState.Idle) }
     val scale by animateFloatAsState(
         targetValue = if (bounceViewState == ViewState.Pressed) viewPressedSize else 1f,
-        animationSpec = tween(durationMillis = animationDurationMills)
+        animationSpec = tween(
+            durationMillis = animationDurationMills,
+            easing = LinearOutSlowInEasing
+        )
     )
 
     val modifier = this
@@ -196,4 +251,76 @@ fun Modifier.shakeClick(
         }
 
     modifier
+}
+
+@Composable
+fun Modifier.gradientIndication(
+    indication: Indication,
+    interactionSource: MutableInteractionSource,
+    onClick: () -> Unit,
+): Modifier = composed {
+    this.clickable(
+        indication = indication,
+        interactionSource = interactionSource,
+    ) {
+        onClick()
+    }
+}
+
+@Composable
+fun ButtonWithState(
+    modifier: Modifier = Modifier,
+    interactionSource: InteractionSource,
+) {
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        when (isPressed) {
+            true -> {
+                Icon(
+                    Icons.Rounded.ShoppingCart,
+                    contentDescription = ""
+                )
+            }
+            false -> {
+                Icon(
+                    Icons.Rounded.AccountTree,
+                    contentDescription = ""
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun AnimatedShimmerBrush(
+
+): Brush {
+    val shimmerColors = listOf(
+        Color.LightGray.copy(alpha = 0.6f),
+        Color.LightGray.copy(alpha = 0.2f),
+        Color.LightGray.copy(alpha = 0.6f)
+    )
+
+    val transition = rememberInfiniteTransition()
+    val translateAnim = transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1000f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = 1000,
+            ),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    val brush = Brush.linearGradient(
+        colors = shimmerColors,
+        start = Offset.Zero,
+        end = Offset(x = translateAnim.value, y = translateAnim.value)
+    )
+    return brush
 }

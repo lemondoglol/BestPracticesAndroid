@@ -1,12 +1,14 @@
 package com.example.bestpracticesapplication.animations
 
-import android.util.Log
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -18,7 +20,6 @@ import androidx.compose.ui.draw.clip
 fun AnimationExampleContentScreen(
     modifier: Modifier = Modifier,
 ) {
-    var isClicked by remember { mutableStateOf(false) }
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -31,31 +32,43 @@ fun AnimationExampleContentScreen(
             Text("Shift Button: Click Me!")
         }
 
+        val gradientInteractionSource = remember { MutableInteractionSource() }
         Column(
-            modifier = modifier.brushClick(),
+            modifier = modifier.gradientClick(
+                interactionSource = gradientInteractionSource
+            ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
             Button(
                 modifier = Modifier.shakeClick(),
-                onClick = {
-                          Log.d("Tuna", "parent clicked")
-                },
+                onClick = {},
             ) {
                 Text("Shake Button: Click Me!")
             }
 
             Button(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .bounceClick()
-                    .aspectRatio(ratio = 1f, matchHeightConstraintsFirst = false)
+                    .aspectRatio(ratio = 5.5f, matchHeightConstraintsFirst = false)
                     .clip(CircleShape),
-                onClick = {
-                    Log.d("Tuna", "child clicked")
-                }
+                onClick = {}
             ) {
-                Text("Bounce Gradient Button: Click Me!")
+                Text("Bounce Button: Click Me!")
             }
+
+            // this will trigger the same click to the same interaction source
+            ButtonWithState(
+                modifier = Modifier
+                    .gradientIndication(
+                        interactionSource = gradientInteractionSource,
+                        indication = rememberRipple(
+
+                        )
+                    ) {},
+                interactionSource = gradientInteractionSource,
+            )
         }
     }
 }

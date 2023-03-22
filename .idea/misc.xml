@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../.gradle/caches/transforms-3/e539d8547761f905d5256e6a3aa064e3/transformed/core-1.8.0/res/drawable/notification_bg.xml" value="0.1905" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1975" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.188" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.284375" />
       </map>
